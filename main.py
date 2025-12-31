@@ -32,3 +32,14 @@ elif selected_option == 4:
     search_num = input("Enter roll number: ")
     new_marks = input("Enter new marks: ")
     so.update_marks(search_num,new_marks)
+
+elif selected_option == 5:
+    search_num = input("Enter roll number: ")
+    so.delete_student(search_num)    
+
+elif selected_option == 6:
+    ans = input("Do you want to stop the existing program? (y/n).").lower()
+    if ans == 'y':
+        input("Existing program is terminated.")
+else:
+    print("Input is invalid. Try again.")

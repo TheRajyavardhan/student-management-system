@@ -35,6 +35,49 @@ def search_student(search_no):
 
 def update_marks(search_no,new_marks):
     try:
+        is_updated = False
+        with open("student.txt","r",newline="") as infile:       
+         with open("temp.txt","w",newline="") as outfile:
+            
+            reader = csv.reader(infile)
+            writer = csv.writer(outfile)
+
+            for row in reader:
+                if row and row[0] == search_no:
+                    row[2] = new_marks
+                    is_updated = True
+                writer.writerow(row)
+        if is_updated:
+                os.replace("temp.txt","student.txt")
+                print("Record is updated.")
+        else:
+                os.remove("temp.txt")
+                print("Record not found.")
+
+    except FileNotFoundError:
+        print("File not found.")
+
+
+def delete_student(search_no):
+    try:
+        is_deleted = False
+        with open("student.txt","r",newline="") as infile:       
+         with open("temp.txt","w",newline="") as outfile:
+            
+            reader = csv.reader(infile)
+            writer = csv.writer(outfile)
+
+            for row in reader:
+                if row and row[0] == search_no:
+                    is_deleted = True
+                    continue
+                writer.writerow(row)
+        if is_deleted:
+                os.replace("temp.txt","student.txt")
+                print("Student record is deleted.")
+        else:
+                os.remove("temp.txt")
+                print("Record not found.")
 
     except FileNotFoundError:
         print("File not found.")
