@@ -1,7 +1,7 @@
-1,Devansh,66
+1,Devansh,98
 2,Prarambh,98
 3,Harsh,80
-5,Siddhant,70
+5,Siddhant,100
 6,Ramesh,40
 7,Mayur,85
 4,Mohit,55
@@ -9,3 +9,9 @@
 9,Ronak,78
 10,Priyanka,46
 11,Sanjeev,57
+12,Vaibhav,41
+13,Harshita,31
+14,Mayank ,21
+15,Rahul,52
+16,Abdul,55
+17,Shuchi,19
