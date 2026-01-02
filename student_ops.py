@@ -3,7 +3,7 @@ import os
 from config import STUDENT_FILE, TEMP_FILE
 
 
-def add_Student(new_record):
+def add_Student(new_record): ## ADDING STUDENT IN RECORD
     try:
         with open(STUDENT_FILE, "a", newline="") as file:
             csv.writer(file).writerow(new_record)
@@ -13,19 +13,25 @@ def add_Student(new_record):
         print("File not found.")
 
 
-def record_view():
+def record_view(): ## DISPLAY ALL RECORDS
     try:
+        sorted_record = {}
         with open(STUDENT_FILE, "r") as file:
             for row in csv.reader(file):
-                print("Roll Number: ", row[0])
-                print("Name: ", row[1])
-                print("Marks: ", row[2], end="\n\n")
+                sorted_record[int(row[0])] = [row[1],row[2]]
+            sorted_key_list = list(sorted_record.keys())
+            sorted_key_list.sort()
+            print()
+            for key in sorted_key_list:
+                print("Roll number: ",key)
+                print("Name: ",sorted_record[key][0])
+                print("Marks: ",sorted_record[key][1],end = '\n\n')
         return
     except FileNotFoundError:
         print("File not found.")
 
 
-def search_student(search_no):
+def search_student(search_no): ## SEARCH STUDENT IN RECORDS
     try:
         with open(STUDENT_FILE, "r") as file:
             for row in csv.reader(file):
@@ -39,7 +45,7 @@ def search_student(search_no):
         print("File not found.")
 
 
-def update_marks(search_no, new_marks):
+def update_marks(search_no, new_marks):  ## UPDATE MARKS IN RECORDS
     try:
         is_updated = False
         with open(STUDENT_FILE, "r", newline="") as infile:
@@ -64,7 +70,7 @@ def update_marks(search_no, new_marks):
         print("File not found.")
 
 
-def delete_student(search_no):
+def delete_student(search_no): ## DELETING STUDENT RECORD
     try:
         is_deleted = False
         with open(STUDENT_FILE, "r", newline="") as infile:
@@ -89,7 +95,7 @@ def delete_student(search_no):
         print("File not found.")
 
 
-def is_unique(search_num):
+def is_unique(search_num): ## FINDING WHETHER ROLL NO IS UNIQUE OR NOT
     with open(STUDENT_FILE, "r") as file:
         for line in file:
             row = line.strip().split(",")

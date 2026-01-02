@@ -1,13 +1,6 @@
 import student_ops as so
 
 
-class Student:
-    def __init__(self, roll_no, st_name, st_marks):
-        self.roll_num = roll_no
-        self.name = st_name
-        self.marks = st_marks
-
-
 def main():
     is_stop = False
 
