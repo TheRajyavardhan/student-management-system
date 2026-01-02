@@ -1,7 +1,7 @@
-1,Devansh,98
+1,Devansh,90
 2,Prarambh,98
-3,Harsh,80
-5,Siddhant,100
+3,Harsh,74
+5,Siddhant,58
 6,Ramesh,40
 7,Mayur,85
 4,Mohit,55
@@ -14,4 +14,5 @@
 14,Mayank ,21
 15,Rahul,52
 16,Abdul,55
-17,Shuchi,19
+17,Shuchi,78
+18,Rajesh,49

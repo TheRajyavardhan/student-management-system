@@ -1,10 +1,11 @@
 import csv
 import os
+from config import STUDENT_FILE, TEMP_FILE
 
 
 def add_Student(new_record):
     try:
-        with open("student.txt", "a", newline="") as file:
+        with open(STUDENT_FILE, "a", newline="") as file:
             csv.writer(file).writerow(new_record)
             print("Student record added successfully.")
             return
@@ -14,9 +15,11 @@ def add_Student(new_record):
 
 def record_view():
     try:
-        with open("student.txt", "r") as file:
-            for line in file:
-                print(line.strip())
+        with open(STUDENT_FILE, "r") as file:
+            for row in csv.reader(file):
+                print("Roll Number: ", row[0])
+                print("Name: ", row[1])
+                print("Marks: ", row[2], end="\n\n")
         return
     except FileNotFoundError:
         print("File not found.")
@@ -24,12 +27,11 @@ def record_view():
 
 def search_student(search_no):
     try:
-        with open("student.txt", "r") as file:
-            for line in file:
-                record_list = line.strip().split(",")
-                if record_list[0] == str(search_no):
-                    print("Name:", record_list[1])
-                    print("Marks:", record_list[2])
+        with open(STUDENT_FILE, "r") as file:
+            for row in csv.reader(file):
+                if row[0] == str(search_no):
+                    print("Name:", row[1])
+                    print("Marks:", row[2])
                     return
             print("Student record not found.")
             return
@@ -40,8 +42,8 @@ def search_student(search_no):
 def update_marks(search_no, new_marks):
     try:
         is_updated = False
-        with open("student.txt", "r", newline="") as infile:
-            with open("temp.txt", "w", newline="") as outfile:
+        with open(STUDENT_FILE, "r", newline="") as infile:
+            with open(TEMP_FILE, "w", newline="") as outfile:
 
                 reader = csv.reader(infile)
                 writer = csv.writer(outfile)
@@ -52,10 +54,10 @@ def update_marks(search_no, new_marks):
                         is_updated = True
                     writer.writerow(row)
         if is_updated:
-            os.replace("temp.txt", "student.txt")
+            os.replace(TEMP_FILE, STUDENT_FILE)
             print("Record is updated.")
         else:
-            os.remove("temp.txt")
+            os.remove(TEMP_FILE)
             print("Record not found.")
         return
     except FileNotFoundError:
@@ -65,8 +67,8 @@ def update_marks(search_no, new_marks):
 def delete_student(search_no):
     try:
         is_deleted = False
-        with open("student.txt", "r", newline="") as infile:
-            with open("temp.txt", "w", newline="") as outfile:
+        with open(STUDENT_FILE, "r", newline="") as infile:
+            with open(TEMP_FILE, "w", newline="") as outfile:
 
                 reader = csv.reader(infile)
                 writer = csv.writer(outfile)
@@ -77,11 +79,20 @@ def delete_student(search_no):
                         continue
                     writer.writerow(row)
         if is_deleted:
-            os.replace("temp.txt", "student.txt")
+            os.replace(TEMP_FILE, STUDENT_FILE)
             print("Student record is deleted.")
         else:
-            os.remove("temp.txt")
+            os.remove(TEMP_FILE)
             print("Record not found.")
         return
     except FileNotFoundError:
         print("File not found.")
+
+
+def is_unique(search_num):
+    with open(STUDENT_FILE, "r") as file:
+        for line in file:
+            row = line.strip().split(",")
+            if row[0] == search_num:
+                return False
+        return True
