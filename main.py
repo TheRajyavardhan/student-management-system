@@ -13,24 +13,28 @@ def main():
         print("4. Update student marks")
         print("5. Delete student")
         print("6. Exit")
-        selected_option = int(input("Enter your ans: "))
+        try:
+            selected_option = int(input("Enter your ans: "))
+        except ValueError:
+            print("Invalid input. Enter a number from 1 to 6.")
+            continue
 
-        if selected_option == 1:  ## Delete student record
+        if selected_option == 1:  ## Add student record
             stop_adding = False
             while stop_adding != True:
-                roll_num = input("Enter roll number: ")
+                roll_num = input("Enter roll number: ").strip()
                 if roll_num.isdigit() == False or int(roll_num) < 1:
                     print("Invalid roll number.")
                     break
                 if so.is_unique(roll_num) == False:
                     print("Roll number is already assigned.")
                     break
-                name = input("Enter student name: ")
+                name = input("Enter student name: ").strip()
                 if name.isalpha() == False:
                     print("Invalid name.")
                     break
-                marks = input("Enter marks: ")
-                if marks.isdigit() == False or 0 < marks > 100:
+                marks = input("Enter marks: ").strip()
+                if marks.isdigit() == False or not (0 <= int(marks) <= 100):
                     print("Invalid marks.")
                     break
                 so.add_Student([roll_num, name, marks])
@@ -44,21 +48,21 @@ def main():
             so.record_view()
 
         elif selected_option == 3:  ## Search student record
-            search_num = input("Enter roll number: ")
+            search_num = input("Enter roll number: ").strip()
             if search_num.isdigit() == False or int(search_num) < 1:
                 print("Invalid roll number.")
-                break
+                continue
             so.search_student(search_num)
 
         elif selected_option == 4:  ## Update student record
             stop_update = False
             while stop_update != True:
-                search_num = input("Enter roll number: ")
+                search_num = input("Enter roll number: ").strip()
                 if search_num.isdigit() == False or int(search_num) < 1:
                     print("Invalid roll number.")
                     break
-                new_marks = input("Enter new marks: ")
-                if new_marks.isdigit() == False or 0 > int(new_marks) > 100:
+                new_marks = input("Enter new marks: ").strip()
+                if new_marks.isdigit() == False or not (0 <= int(new_marks) <= 100):
                     print("Invalid marks.")
                     break
                 so.update_marks(search_num, new_marks)
@@ -71,7 +75,7 @@ def main():
         elif selected_option == 5:  ## Delete student record
             stop_deleting = False
             while stop_deleting != True:
-                search_num = input("Enter roll number: ")
+                search_num = input("Enter roll number: ").strip()
                 if search_num.isdigit() == False or int(search_num) < 1:
                     print("Invalid roll number.")
                     break
