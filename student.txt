@@ -11,8 +11,16 @@
 11,Sanjeev,57
 12,Vaibhav,41
 13,Harshita,31
-14,Mayank ,21
-15,Rahul,52
+14,Mayank,88
+15,Rahul,59
 16,Abdul,55
-17,Shuchi,78
 18,Rajesh,49
+19,Ahmed,83
+20,Iqbal,78
+21,Alma,58
+22,Nihal,78
+23,Ranveer,65
+24,Pratap,84
+25,Samar,48
+26,Samay,39
+27,Simran,37

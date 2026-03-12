@@ -1,12 +1,18 @@
-import csv
 import os
 from config import STUDENT_FILE, TEMP_FILE
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
 
 
 def add_Student(new_record): ## ADDING STUDENT IN RECORD
     try:
-        with open(STUDENT_FILE, "a", newline="") as file:
-            csv.writer(file).writerow(new_record)
+            df = pd.DataFrame([new_record], columns=["Roll No.", "Name", "Marks"])
+            if os.path.exists(STUDENT_FILE) and os.path.getsize(STUDENT_FILE) > 0:
+                df.to_csv(STUDENT_FILE, mode="a", index=False, header=False)
+            else:
+                df.to_csv(STUDENT_FILE, mode="a", index=False, header=False)
             print("Student record added successfully.")
             return
     except FileNotFoundError:
@@ -15,30 +21,28 @@ def add_Student(new_record): ## ADDING STUDENT IN RECORD
 
 def record_view(): ## DISPLAY ALL RECORDS
     try:
-        sorted_record = {}
-        with open(STUDENT_FILE, "r") as file:
-            for row in csv.reader(file):
-                sorted_record[int(row[0])] = [row[1],row[2]]
-            sorted_key_list = list(sorted_record.keys())
-            sorted_key_list.sort()
-            print()
-            for key in sorted_key_list:
-                print("Roll number: ",key)
-                print("Name: ",sorted_record[key][0])
-                print("Marks: ",sorted_record[key][1],end = '\n\n')
-        return
+            df = pd.read_csv(STUDENT_FILE,header=None, names=["Roll No.", "Name", "Marks"])
+            if df.empty:
+                print("No student records found.")
+                return 
+            df = df.sort_values(by = "Roll No.")
+            print("\n" + df.to_string(index=False))
+            return 
     except FileNotFoundError:
         print("File not found.")
 
 
 def search_student(search_no): ## SEARCH STUDENT IN RECORDS
     try:
-        with open(STUDENT_FILE, "r") as file:
-            for row in csv.reader(file):
-                if row[0] == str(search_no):
-                    print("Name:", row[1])
-                    print("Marks:", row[2])
-                    return
+            df = pd.read_csv(STUDENT_FILE, header=None, names=["Roll No.", "Name", "Marks"])
+            df["Roll No."] = df["Roll No."].astype(str).str.strip()
+            search_no = str(search_no).strip()
+            match = df[df["Roll No."] == search_no]
+            if not match.empty:
+                column = match.iloc[0]
+                print("Name:", column["Name"])
+                print("Marks:", column["Marks"])
+                return
             print("Student record not found.")
             return
     except FileNotFoundError:
@@ -47,58 +51,44 @@ def search_student(search_no): ## SEARCH STUDENT IN RECORDS
 
 def update_marks(search_no, new_marks):  ## UPDATE MARKS IN RECORDS
     try:
-        is_updated = False
-        with open(STUDENT_FILE, "r", newline="") as infile:
-            with open(TEMP_FILE, "w", newline="") as outfile:
-
-                reader = csv.reader(infile)
-                writer = csv.writer(outfile)
-
-                for row in reader:
-                    if row and row[0] == search_no:
-                        row[2] = new_marks
-                        is_updated = True
-                    writer.writerow(row)
-        if is_updated:
-            os.replace(TEMP_FILE, STUDENT_FILE)
-            print("Record is updated.")
-        else:
-            os.remove(TEMP_FILE)
-            print("Record not found.")
-        return
+        if pd is not None:
+            df = pd.read_csv(STUDENT_FILE, header=None, names=["Roll No.", "Name", "Marks"])
+            df["Roll No."] = df["Roll No."].astype(str).str.strip()
+            new_marks = int(new_marks)
+            # Keep marks as int for consistency if stored as numeric
+            df.loc[mask := (df["Roll No."] == search_no), "Marks"] = new_marks
+            if mask.any():
+                df.to_csv(STUDENT_FILE, index=False, header=False)
+                print("Record is updated.")
+            else:
+                print("Record not found.")
+            return
     except FileNotFoundError:
         print("File not found.")
 
 
 def delete_student(search_no): ## DELETING STUDENT RECORD
     try:
-        is_deleted = False
-        with open(STUDENT_FILE, "r", newline="") as infile:
-            with open(TEMP_FILE, "w", newline="") as outfile:
-
-                reader = csv.reader(infile)
-                writer = csv.writer(outfile)
-
-                for row in reader:
-                    if row and row[0] == search_no:
-                        is_deleted = True
-                        continue
-                    writer.writerow(row)
-        if is_deleted:
-            os.replace(TEMP_FILE, STUDENT_FILE)
-            print("Student record is deleted.")
-        else:
-            os.remove(TEMP_FILE)
-            print("Record not found.")
-        return
+            df = pd.read_csv(STUDENT_FILE, header=None, names=["Roll No.", "Name", "Marks"])
+            df["Roll No."] = df["Roll No."].astype(str).str.strip()
+            search_no = str(search_no).strip()
+            mask = df["Roll No."] == search_no
+            if mask.any():
+                df = df.loc[~mask]
+                df.to_csv(STUDENT_FILE, index=False, header=False)
+                print("Student record is deleted.")
+            else:
+                print("Record not found.")
+            return
     except FileNotFoundError:
         print("File not found.")
 
 
 def is_unique(search_num): ## FINDING WHETHER ROLL NO IS UNIQUE OR NOT
+    search_num = str(search_num).strip()
     with open(STUDENT_FILE, "r") as file:
         for line in file:
             row = line.strip().split(",")
-            if row[0] == search_num:
+            if row and row[0].strip() == search_num:
                 return False
         return True
