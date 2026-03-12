@@ -1,5 +1,5 @@
 import os
-from config import STUDENT_FILE, TEMP_FILE
+from config import STUDENT_FILE
 try:
     import pandas as pd
 except ImportError:
