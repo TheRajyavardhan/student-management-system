@@ -1,3 +1,3 @@
-STUDENT_FILE = "Student.txt"
+STUDENT_FILE = "student.txt"
 MAX_MARKS = 100
 MIN_MARKS = 0

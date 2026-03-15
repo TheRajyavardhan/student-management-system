@@ -4,7 +4,7 @@ import student_ops as so
 def main():
     is_stop = False
 
-    while is_stop != True:
+    while not is_stop:
 
         print("\n---Student Management System---")
         print("1. Add student")
@@ -20,21 +20,20 @@ def main():
             continue
 
         if selected_option == 1:  ## Add student record
-            stop_adding = False
-            while stop_adding != True:
-                roll_num = input("Enter roll number: ").strip()
-                if roll_num.isdigit() == False or int(roll_num) < 1:
+            while True:
+                roll_num = int(input("Enter roll number: "))
+                if roll_num < 1:
                     print("Invalid roll number.")
                     break
-                if so.is_unique(roll_num) == False:
+                if not so.is_unique(roll_num):
                     print("Roll number is already assigned.")
                     break
                 name = input("Enter student name: ").strip()
                 if name.isalpha() == False:
                     print("Invalid name.")
                     break
-                marks = input("Enter marks: ").strip()
-                if marks.isdigit() == False or not (0 <= int(marks) <= 100):
+                marks = int(input("Enter marks: "))
+                if not (0 <= marks <= 100):
                     print("Invalid marks.")
                     break
                 so.add_Student([roll_num, name, marks])
@@ -42,27 +41,26 @@ def main():
                     "do you want to add more student record? (Enter = yes, n = no).."
                 ).lower()
                 if ans == "n":
-                    stop_adding = True
+                    break
 
         elif selected_option == 2:  ## View all records
             so.record_view()
 
         elif selected_option == 3:  ## Search student record
-            search_num = input("Enter roll number: ").strip()
-            if search_num.isdigit() == False or int(search_num) < 1:
+            search_num = int(input("Enter roll number: "))
+            if search_num < 1:
                 print("Invalid roll number.")
                 continue
             so.search_student(search_num)
 
         elif selected_option == 4:  ## Update student record
-            stop_update = False
-            while stop_update != True:
-                search_num = input("Enter roll number: ").strip()
-                if search_num.isdigit() == False or int(search_num) < 1:
+            while  True:
+                search_num = int(input("Enter roll number: "))
+                if search_num < 1:
                     print("Invalid roll number.")
                     break
-                new_marks = input("Enter new marks: ").strip()
-                if new_marks.isdigit() == False or not (0 <= int(new_marks) <= 100):
+                new_marks = int(input("Enter new marks: "))
+                if not (0 <= new_marks <= 100):
                     print("Invalid marks.")
                     break
                 so.update_marks(search_num, new_marks)
@@ -70,13 +68,12 @@ def main():
                     "Do you want to update another student record? (Enter = yes, n = no).. "
                 ).lower()
                 if ans == "n":
-                    stop_update = True
+                    break
 
         elif selected_option == 5:  ## Delete student record
-            stop_deleting = False
-            while stop_deleting != True:
-                search_num = input("Enter roll number: ").strip()
-                if search_num.isdigit() == False or int(search_num) < 1:
+            while True:
+                search_num = int(input("Enter roll number: "))
+                if search_num < 1:
                     print("Invalid roll number.")
                     break
                 so.delete_student(search_num)
@@ -84,16 +81,16 @@ def main():
                     "Do you want to delete another student record? (Enter = yes, n = no).. "
                 ).lower()
                 if ans == "n":
-                    stop_deleting = True
+                    break
 
         elif selected_option == 6:  ## Exit option
             ans = input("Do you want to stop the existing program? (y/n)... ").lower()
             if ans == "y":
-                input("Existing program is terminated.")
+                print("Program terminated.")
                 is_stop = True
 
                 continue
-        elif selected_option > 6 or selected_option < 1:  ## Invalid input
+        else:
             print("Input is invalid. Try again.")
 
 

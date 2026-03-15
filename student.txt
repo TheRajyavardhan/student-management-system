@@ -18,10 +18,13 @@
 19,Ahmed,83
 20,Iqbal,78
 21,Alma,58
-22,Nihal,78
+22,Nihal,55
 23,Ranveer,65
 24,Pratap,84
 25,Samar,48
 26,Samay,39
 27,Simran,37
 28,Maitri,25
+29,Amrit,58
+30,Jassy,83
+32,Jaspreet,79
