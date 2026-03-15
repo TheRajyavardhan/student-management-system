@@ -24,7 +24,9 @@
 25,Samar,48
 26,Samay,39
 27,Simran,37
-28,Maitri,25
+28,Maitri,50
 29,Amrit,58
 30,Jassy,83
 32,Jaspreet,79
+33,Khusi,98
+31,Yash,89

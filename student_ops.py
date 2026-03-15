@@ -1,4 +1,3 @@
-import os
 from config import STUDENT_FILE
 import pandas as pd
 
@@ -69,8 +68,45 @@ def delete_student(search_no): ## DELETING STUDENT RECORD
 
 
 def is_unique(search_num): ## FINDING WHETHER ROLL NO IS UNIQUE OR NOT
-    df = pd.read_csv("student.txt", names=["Roll No","Names","Marks"], dtype={"Roll No": int})
+    df = pd.read_csv(STUDENT_FILE, names=["Roll No","Names","Marks"], dtype={"Roll No": int})
     mask = df["Roll No"] == search_num
     if mask.any():
             return False # Roll No already assigned.
-    return True # Not assigned Roll No.
+    return True # Not assigned.
+
+def show_topper():
+    try:
+        df = pd.read_csv(STUDENT_FILE, names=["Roll No","Name","Marks"])
+        if df.empty:
+             print("No student records found.")
+             return
+        
+        top_marks = df["Marks"].max()
+        toppers = df[df["Marks"]==top_marks]
+        print("\nTop Student(s):")
+        print(toppers.to_string(index=False))
+        return 
+    except FileNotFoundError:
+         print("File not found.")
+
+def class_avg():
+     try:
+        df = pd.read_csv(STUDENT_FILE, names=["Roll No","Name","Marks"])
+        if df.empty:
+             print("No student records found.")
+             return
+        marks_avg = df["Marks"].mean()
+        print(f"Class Average: {marks_avg:.2f}")
+        return 
+     except FileNotFoundError:
+          print("File not found.")
+
+def total_student():
+     try:
+          df = pd.read_csv(STUDENT_FILE, names=["Roll No","Name","Marks"])
+          if df.empty:
+             print("No student records found.")
+             return
+          print(f"Total number of students: {len(df)}")
+     except FileNotFoundError:
+          print("File not found.")

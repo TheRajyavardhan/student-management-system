@@ -5,14 +5,19 @@ def main():
     is_stop = False
 
     while not is_stop:
-
-        print("\n---Student Management System---")
+        print("="*40)
+        print("       Student Management System")
+        print("="*40)
         print("1. Add student")
-        print("2. View all student")
+        print("2. Show all student")
         print("3. Search student by roll number")
         print("4. Update student marks")
         print("5. Delete student")
-        print("6. Exit")
+        print("6. Show topper")
+        print("7. Show class average")
+        print("8. Count total student")
+        print("9. Exit")
+        print("="*40)
         try:
             selected_option = int(input("Enter your ans: "))
         except ValueError:
@@ -82,8 +87,16 @@ def main():
                 ).lower()
                 if ans == "n":
                     break
+        
+        elif selected_option == 6: ## Show topper
+            so.show_topper()
 
-        elif selected_option == 6:  ## Exit option
+        elif selected_option == 7: ## Class average
+            so.class_avg()
+
+        elif selected_option == 8: ## Total number of students
+            so.total_student()
+        elif selected_option == 9:  ## Exit option
             ans = input("Do you want to stop the existing program? (y/n)... ").lower()
             if ans == "y":
                 print("Program terminated.")
